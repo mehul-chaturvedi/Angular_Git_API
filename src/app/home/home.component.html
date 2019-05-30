@@ -1,3 +1,11 @@
-<mat-form-field>
-  <input matInput placeholder="Input">
+<mat-form-field class="example-full-width">
+  <input matInput placeholder="Enter Git Username" #userName />
 </mat-form-field>
+<br />
+<button mat-raised-button (click)="gitSearch(userName)" color="primary">
+  Go
+</button>
+<br />
+<mat-list role="list">
+  <a mat-list-item (click)="openChartDialog(repo.owner.login, repo.name)" *ngFor="let repo of repos" role="listitem">{{repo.name}}</a>
+</mat-list>
