@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatToolbarModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatDialogModule, MatListModule} from '@angular/material';
+import {MatToolbarModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatDialogModule, MatListModule, MatSnackBarModule} from '@angular/material';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -31,7 +31,8 @@ import { ChartsModule } from 'ng2-charts';
     HttpClientModule,
     MatDialogModule,
     MatListModule,
-    ChartsModule
+    ChartsModule,
+    MatSnackBarModule
   ],
   entryComponents: [ChartDialogComponent],
   providers: [GitServices],

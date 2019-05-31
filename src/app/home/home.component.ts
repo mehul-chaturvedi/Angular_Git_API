@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { GitServices } from '../services/git.service';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
 import { ChartDialogComponent } from '../chart-dialog/chart-dialog.component';
 
 @Component({
@@ -10,7 +10,7 @@ import { ChartDialogComponent } from '../chart-dialog/chart-dialog.component';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private gitService: GitServices, public dialog: MatDialog) { }
+  constructor(private gitService: GitServices, public dialog: MatDialog, private _snackBar: MatSnackBar) { }
 repos: any;
   ngOnInit() {
   }
@@ -18,8 +18,17 @@ repos: any;
   gitSearch(data) {
     const da = data.value;
     this.gitService.getUserRepos(da).subscribe(res => {
+      console.log(res)
       this.repos = res;
-      console.log(res, 'res');
+      if(!this.repos.length){
+        this.openSnackBar('No Repositories Available Try Other User Name', '');
+      } 
+    });
+  }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 3000,
     });
   }
 
