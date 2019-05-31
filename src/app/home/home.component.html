@@ -6,6 +6,6 @@
   Go
 </button>
 <br />
-<mat-list role="list">
+<mat-nav-list >
   <a mat-list-item (click)="openChartDialog(repo.owner.login, repo.name)" *ngFor="let repo of repos" role="listitem">{{repo.name}}</a>
-</mat-list>
+</mat-nav-list>

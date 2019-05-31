@@ -11,7 +11,6 @@ export class ChartDialogComponent implements OnInit {
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, private gitService: GitServices) { }
   chartdata: any;
-  // Clables:any = [];
   count = 10;
   start = 1;
   nextp = false;
@@ -23,19 +22,13 @@ export class ChartDialogComponent implements OnInit {
   public barChartLabels = [];
   public barChartType = 'bar';
   public barChartLegend = true;
-  public barChartData = [{ data: [], label: 'Counts This Week' }];
+  public barChartData = [{ data: [], label: 'Commit Counts Per Week' }];
 
   ngOnInit() {
     console.log(this.data, 'data');
     this.gitService.getRepoCommitCount(this.data.owner, this.data.repo).subscribe(res => {
       this.chartdata = res;
-      for (var i = 1; i <= 10; i++) {
-        this.barChartData[0].data.push(res['all'][i - 1]);
-        this.barChartLabels.push('Week ' + i);
-        // this.Cdata.push(res['all'][i-1]);
-        // this.Clables.push('Week '+ i);
-      }
-      console.log(this.chartdata, 'new')
+      this.fillChart(this.start, this.count)
     });
   }
 
@@ -46,23 +39,11 @@ export class ChartDialogComponent implements OnInit {
     this.barChartData[0].data = [];
     this.barChartLabels = [];
     if (this.count <= 40) {
-      for (var i = this.start; i <= this.count; i++) {
-        this.barChartData[0].data.push(this.chartdata.all[i - 1]);
-        this.barChartLabels.push('Week ' + i);
-        // this.Cdata.push(res['all'][i-1]);
-        // this.Clables.push('Week '+ i);
-      }
-      console.log(this.barChartData[0].data, 'data')
+      this.fillChart(this.start, this.count)
     } else {
       this.prevp = true;
       this.count = 52;
-      for (var i = this.start; i <= this.count; i++) {
-        this.barChartData[0].data.push(this.chartdata.all[i - 1]);
-        this.barChartLabels.push('Week ' + i);
-        // this.Cdata.push(res['all'][i-1]);
-        // this.Clables.push('Week '+ i);
-      }
-      console.log(this.barChartData[0].data, 'data')
+      this.fillChart(this.start, this.count);
       this.count = 50;
       this.start = 41;
     }
@@ -74,23 +55,25 @@ export class ChartDialogComponent implements OnInit {
     this.count = this.count - 10;
     this.barChartData[0].data = [];
     this.barChartLabels = [];
-    if (this.start >= 1) {
+    if (this.start > 1) {
       this.prevp = false;
-      for (var i = this.start; i <= this.count; i++) {
-        this.barChartData[0].data.push(this.chartdata.all[i - 1]);
-        this.barChartLabels.push('Week ' + i);
-        // this.Cdata.push(res['all'][i-1]);
-        // this.Clables.push('Week '+ i);
-      }
-      console.log(this.barChartData[0].data, 'data')
+      this.fillChart(this.start, this.count);
 
     } else {
+        this.fillChart(this.start, this.count)
       this.nextp = false;
       this.prevp = false;
       this.count = 0;
       this.start = -9;
     }
-    console.log(this.barChartData[0].data, this.start, 'data')
+  }
+
+  fillChart(start, count){
+    for (var i = start; i <= count; i++) {
+      this.barChartData[0].data.push(this.chartdata.all[i - 1]);
+      this.barChartLabels.push('Week ' + i);
+
+    }
   }
 
 }
